@@ -1,0 +1,17 @@
+
+YtTreeWidget{
+    /* set the font properties*/
+    font-size:12px;
+    color: black;
+}
+
+
+YtTreeWidget::item{
+    margin:5px;
+    /*background: #F6F6F6;*/
+    background-clip: margin;
+}
+
+QSplitter::handle {
+    background-color: #c0c0c0
+}
