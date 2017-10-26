@@ -42,11 +42,13 @@ class NewConnectionDlg(QDialog):
         btn_layout = QHBoxLayout()
 
         host_layout.addWidget(QLabel('Host'),3)
+        #self.__host_edit = QLineEdit('192.168.184.128')
         self.__host_edit = QLineEdit()
         self.__host_edit.setValidator(QRegExpValidator(self.__host_reg))
         host_layout.addWidget(self.__host_edit,7)
 
         port_layout.addWidget(QLabel('Port'),3)
+        #self.__port_edit = QLineEdit('6641')
         self.__port_edit = QLineEdit()
         self.__port_edit.setValidator(QRegExpValidator(self.__port_reg))
         port_layout.addWidget(self.__port_edit,7)
@@ -55,9 +57,11 @@ class NewConnectionDlg(QDialog):
         self.__schema_combo_box = QComboBox()
         self.__schema_combo_box.addItems(QStringList()<<'Open_vSwitch'<<'OVN_Northbound'<<'OVN_Southbound')
         self.__schema_combo_box.view().setSpacing(3)
+        self.__schema_combo_box.setCurrentIndex(1)
         schema_layout.addWidget(self.__schema_combo_box,7)
 
         self.ok_btn = QPushButton('ok')
+        #self.ok_btn.setFlat(True)
         self.ok_btn.setEnabled(False)
         self.cancel_btn = QPushButton('cancel')
         btn_layout.addWidget(self.ok_btn,5)
