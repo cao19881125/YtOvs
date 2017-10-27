@@ -1,5 +1,6 @@
-# install pyqt4
+# Install dependencies
 ## mac os
+### pyqt4
 ```
 brew install cartr/qt4/pyqt
 
@@ -7,6 +8,11 @@ sudo mkdir -p /Users/username/Library/Python/2.7/lib/python/site-packages
 
 sudo vim /Users/username/Library/Python/2.7/lib/python/site-packages/homebrew.pth
 import site; site.addsitedir("/usr/local/lib/python2.7/site-packages")
+```
+
+### ovs
+```
+sudo pip install ovs
 ```
 
 ## test
