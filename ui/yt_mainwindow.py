@@ -14,6 +14,7 @@ from PyQt4.QtCore import SLOT
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtCore import QString
 from yt_dialog.new_connection_dlg import NewConnectionDlg
+from yt_dialog.profile_dlg import ProfileDlg
 from db_connection.connection_manager import ConnectionManager
 from db_tree.yt_tree_widget import YtTreeWidget
 from data_widget.data_widget import DataWidget
@@ -46,23 +47,31 @@ class YtMainWindow(QMainWindow):
 
     def __setup_menu(self):
         fileMenu = QMenu("Db", self)
+        profileMenu = QMenu('Profiles',self)
 
         self.menuBar().addMenu(fileMenu)
+        self.menuBar().addMenu(profileMenu)
 
         self.__new_action = QAction(QIcon('./icon/add_database.png'),"&New", fileMenu)
         fileMenu.addAction(self.__new_action)
 
+        self.__profile_action = QAction(QIcon('./icon/profiles.png'),"&Open profiles", profileMenu)
+        profileMenu.addAction(self.__profile_action)
+
         tool_bar = QToolBar()
         tool_bar.setMovable(False)
-        tool_bar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        tool_bar.setToolButtonStyle(Qt.ToolButtonIconOnly)
         tool_bar.addAction(self.__new_action)
-        tool_bar.setIconSize(QSize(20,20))
+        tool_bar.addAction(self.__profile_action)
+        tool_bar.setIconSize(QSize(30,30))
+        #tool_bar.setStyleSheet("QToolButton { padding-left: 5px; padding-right: 5px; }  QToolBar{padding-left: 5px; padding-right: 5px}")
 
         self.addToolBar(tool_bar)
 
 
     def __connect_slot(self):
         self.connect(self.__new_action,SIGNAL('triggered()'), self, SLOT('__on_new_action()'))
+        self.connect(self.__profile_action,SIGNAL('triggered()'), self, SLOT('__on_profile_action()'))
         self.connect(self.__yt_tree_widget,SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject)'),
                      self, SLOT('__on_table_double_clicked(PyQt_PyObject,PyQt_PyObject)'))
 
@@ -87,3 +96,18 @@ class YtMainWindow(QMainWindow):
             ip, port, schema = con.get_con_info()
             self.__yt_tree_widget.add_connection(ip, port, schema, con.get_table_names(), hash_key)
 
+
+    @pyqtSlot()
+    def __on_profile_action(self):
+        profile_dlg = ProfileDlg()
+        if profile_dlg.exec_():
+            ret, hash_key = ConnectionManager().connect_to(profile_dlg.click_ip, profile_dlg.click_port, profile_dlg.click_schema)
+            if not ret:
+                QMessageBox.critical(self, 'failed', 'connect failed')
+                return
+            # show db in tree
+            con = ConnectionManager().get_connection(hash_key)
+            if not con:
+                return
+            ip, port, schema = con.get_con_info()
+            self.__yt_tree_widget.add_connection(ip, port, schema, con.get_table_names(), hash_key)

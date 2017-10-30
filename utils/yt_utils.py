@@ -1,3 +1,4 @@
+import hashlib
 from PyQt4.QtCore import QString
 
 def to_python_str(from_str):
@@ -6,3 +7,10 @@ def to_python_str(from_str):
     else:
         return str(from_str)
 
+
+
+
+def con_has_code( ip, port, schema):
+    str_key = ip + ':' + str(port) + ':' + schema
+
+    return hashlib.new('md5', str_key ).hexdigest()

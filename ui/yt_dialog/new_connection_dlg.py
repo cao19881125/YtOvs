@@ -13,6 +13,7 @@ from PyQt4.QtCore import SLOT
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtGui import QRegExpValidator
+from utils.yt_utils import to_python_str
 
 class NewConnectionDlg(QDialog):
     def __init__(self):
@@ -55,9 +56,9 @@ class NewConnectionDlg(QDialog):
 
         schema_layout.addWidget(QLabel('Schema'),3)
         self.__schema_combo_box = QComboBox()
-        self.__schema_combo_box.addItems(QStringList()<<'Open_vSwitch'<<'OVN_Northbound'<<'OVN_Southbound')
+        self.__schema_combo_box.addItems(QStringList()<<'Open_vSwitch'<<'OVN_Northbound'<<'OVN_Southbound' << 'hardware_vtep')
         self.__schema_combo_box.view().setSpacing(3)
-        self.__schema_combo_box.setCurrentIndex(1)
+        #self.__schema_combo_box.setCurrentIndex(1)
         schema_layout.addWidget(self.__schema_combo_box,7)
 
         self.ok_btn = QPushButton('ok')
@@ -82,9 +83,9 @@ class NewConnectionDlg(QDialog):
 
     @pyqtSlot()
     def __on_ok_btn(self):
-        self.host = unicode(self.__host_edit.text())
+        self.host = to_python_str(self.__host_edit.text())
         self.port = int(self.__port_edit.text() if (self.__port_edit.text() != '') else '0')
-        self.schema = unicode(self.__schema_combo_box.currentText())
+        self.schema = to_python_str(self.__schema_combo_box.currentText())
         self.accept()
 
     @pyqtSlot('QString')
