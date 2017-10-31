@@ -20,15 +20,21 @@ class DbTreeItem(QTreeWidgetItem):
 
         self.setIcon(0,QIcon('./icon/database.png'))
 
-        db_item = QTreeWidgetItem(self)
-        db_item.setIcon(0,QIcon('./icon/dir_close.png'))
-        db_item.setText(0, self.__schema_name)
 
+        self.__db_item = QTreeWidgetItem(self)
+        self.__db_item.setIcon(0,QIcon('./icon/dir_close.png'))
+        self.__db_item.setText(0, self.__schema_name)
 
         for table in self.__table_names:
-            table_item = QTreeWidgetItem(db_item)
+            table_item = QTreeWidgetItem(self.__db_item)
             table_item.setIcon(0,QIcon('./icon/table.png'))
             table_item.setText(0, table)
+
+    def get_default_expand_items(self):
+        items = []
+        items.append(self)
+        items.append(self.__db_item)
+        return items
 
     def item_expand(self,item):
         if item is self:

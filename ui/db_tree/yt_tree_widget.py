@@ -27,6 +27,9 @@ class YtTreeWidget(QTreeWidget):
 
         item = DbTreeItem(ip + ':' + str(port), schema, tables, con_key)
         self.addTopLevelItem(item)
+        default_expand_items = item.get_default_expand_items()
+        for ex_item in default_expand_items:
+            self.expandItem(ex_item)
 
 
     def __connect_slot(self):
