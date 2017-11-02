@@ -9,7 +9,7 @@ class YtDbConnection(object):
         self.__port = port
         self.__con_str = 'tcp:' + ip + ':' + str(port)
         self.__db_schema = db_schema
-        self.__connection = connection.Connection(self.__con_str, 180, self.__db_schema)
+        self.__connection = None
         self.__table_names = []
         self.__connected = False
 
@@ -17,12 +17,20 @@ class YtDbConnection(object):
         if self.__connected:
             return
         try:
+            self.__connection = connection.Connection(self.__con_str, 180, self.__db_schema)
             self.__connection.start()
         except Exception:
             return False
         self.__get_tables_names_from_db()
         self.__connected = True
         return True
+
+    def close_connection(self):
+        if not self.__connected:
+            return
+
+        self.__connection.close()
+        self.__connected = False
 
     def __get_tables_names_from_db(self):
         list_cmd = ListTableCmd(self.__connection)
@@ -31,15 +39,21 @@ class YtDbConnection(object):
         self.__table_names = result
 
     def get_table_names(self):
+        if not self.__connected:
+            return
         return self.__table_names
 
     def get_table_data(self, table_name):
+        if not self.__connected:
+            return
         dump_table_cmd = DumpTableCmd(self.__connection, table_name)
         self.__connection.queue_txn(dump_table_cmd)
         result = dump_table_cmd.get_result(5)
         return result
 
     def get_table_colume_names(self, table_name):
+        if not self.__connected:
+            return
         get_colume_names_cmd = GetTableStructureCmd(self.__connection, table_name)
         self.__connection.queue_txn(get_colume_names_cmd)
         result_struct = get_colume_names_cmd.get_result(5)

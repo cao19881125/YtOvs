@@ -1,9 +1,18 @@
 import sys
 from PyQt4.QtGui import QTreeWidget
+from PyQt4.QtGui import QWidget
+from PyQt4.QtGui import QPushButton
+from PyQt4.QtGui import QHBoxLayout
+from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QTreeWidgetItem
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QIcon
+from PyQt4.QtGui import QSizePolicy
 from PyQt4.QtCore import QSize
+from PyQt4.QtCore import SIGNAL
+from PyQt4.QtCore import SLOT
+from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtCore import QObject
 
 class DbTreeItem(QTreeWidgetItem):
     def __init__(self, con_name, schema_name, table_names, con_key):
@@ -16,8 +25,7 @@ class DbTreeItem(QTreeWidgetItem):
 
 
     def __setup_ui(self):
-        self.setText(0, self.__con_name)
-
+        #self.setText(0, self.__con_name)
         self.setIcon(0,QIcon('./icon/database.png'))
 
 

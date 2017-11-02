@@ -44,6 +44,7 @@ class Connection(object):
         self.timeout = timeout
         self.txns = TransactionQueue(1)
         self.lock = threading.Lock()
+        self.__closed = False
         if idl_factory:
             if connection or schema_name:
                 raise TypeError(_('Connection: Takes either idl_factory, or '
@@ -79,6 +80,8 @@ class Connection(object):
             self.thread.setDaemon(True)
             self.thread.start()
 
+    def close(self):
+        self.__closed = True
 
     def _idl_factory(self):
         helper = self.get_schema_helper()
@@ -98,7 +101,7 @@ class Connection(object):
             helper.register_all()
 
     def run(self):
-        while True:
+        while True and not self.__closed:
             self.idl.wait(self.poller)
             self.poller.fd_wait(self.txns.alert_fileno, poller.POLLIN)
             #TODO(jlibosva): Remove next line once losing connection to ovsdb

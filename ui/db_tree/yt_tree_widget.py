@@ -1,12 +1,18 @@
 import sys
 from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QTreeWidget
+from PyQt4.QtGui import QPushButton
+from PyQt4.QtGui import QWidget
+from PyQt4.QtGui import QLabel
+from PyQt4.QtGui import QHBoxLayout
+from PyQt4.QtGui import QVBoxLayout
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QSize
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtCore import SIGNAL
 from PyQt4.QtCore import SLOT
 from db_tree_item import DbTreeItem
+from db_tree_header_widget import DbTreeHeaderWidget
 from db_connection.connection_manager import ConnectionManager
 
 class YtTreeWidget(QTreeWidget):
@@ -27,6 +33,11 @@ class YtTreeWidget(QTreeWidget):
 
         item = DbTreeItem(ip + ':' + str(port), schema, tables, con_key)
         self.addTopLevelItem(item)
+
+        header_widget = DbTreeHeaderWidget(ip + ':' + str(port), item, con_key)
+        self.setItemWidget(item,0,header_widget)
+        self.connect(header_widget,SIGNAL('close_btn_clickd(PyQt_PyObject,PyQt_PyObject)'),self,SLOT('__on_header_close_btn(PyQt_PyObject,PyQt_PyObject)'))
+
         default_expand_items = item.get_default_expand_items()
         for ex_item in default_expand_items:
             self.expandItem(ex_item)
@@ -62,7 +73,15 @@ class YtTreeWidget(QTreeWidget):
 
         self.emit(SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject)'), table_name, con_key)
 
-
+    @pyqtSlot('PyQt_PyObject','PyQt_PyObject')
+    def __on_header_close_btn(self, item, con_key):
+        top_count = self.topLevelItemCount()
+        for i in range(top_count):
+            top_item = self.topLevelItem(i)
+            if item is top_item:
+                self.takeTopLevelItem(i)
+                ConnectionManager().del_connection(con_key)
+                return
 
 if __name__== '__main__':
     app = QApplication(sys.argv)

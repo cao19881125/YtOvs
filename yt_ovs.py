@@ -14,9 +14,11 @@ if __name__== '__main__':
 
     main_windows = YtMainWindow()
     main_windows.setWindowState(main_windows.windowState() & ~Qt.WindowMinimized | Qt.WindowActive)
+    #main_windows.setWindowState(Qt.WindowMaximized | Qt.WindowActive)
     main_windows.raise_()
     main_windows.show()
     main_windows.activateWindow()
+
 
 
     sys.exit(app.exec_())
