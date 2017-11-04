@@ -72,14 +72,14 @@ class YtMainWindow(QMainWindow):
     def __connect_slot(self):
         self.connect(self.__new_action,SIGNAL('triggered()'), self, SLOT('__on_new_action()'))
         self.connect(self.__profile_action,SIGNAL('triggered()'), self, SLOT('__on_profile_action()'))
-        self.connect(self.__yt_tree_widget,SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject)'),
-                     self, SLOT('__on_table_double_clicked(PyQt_PyObject,PyQt_PyObject)'))
+        self.connect(self.__yt_tree_widget,SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject,PyQt_PyObject)'),
+                     self, SLOT('__on_table_double_clicked(PyQt_PyObject,PyQt_PyObject,PyQt_PyObject)'))
 
-    @pyqtSlot('PyQt_PyObject','PyQt_PyObject')
-    def __on_table_double_clicked(self, table_name, con_key):
+    @pyqtSlot('PyQt_PyObject','PyQt_PyObject','PyQt_PyObject')
+    def __on_table_double_clicked(self, table_name, con_key, label_color):
         # table_name type is PyQt4.QtCore.QString,con_key type is str
 
-        self.__data_widget.add_tab(to_python_str(con_key), to_python_str(table_name))
+        self.__data_widget.add_tab(to_python_str(con_key), to_python_str(table_name),label_color)
 
     @pyqtSlot()
     def __on_new_action(self):

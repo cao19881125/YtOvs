@@ -1,4 +1,3 @@
-import hashlib
 from yt_db_connection import YtDbConnection
 from utils.singleton import singleton
 from utils.yt_utils import con_has_code

@@ -15,12 +15,13 @@ from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtCore import QObject
 
 class DbTreeItem(QTreeWidgetItem):
-    def __init__(self, con_name, schema_name, table_names, con_key):
+    def __init__(self, con_name, schema_name, table_names, con_key, label_color):
         QTreeWidgetItem.__init__(self)
         self.__con_name = con_name
         self.__schema_name = schema_name
         self.__table_names = table_names
         self.__con_key = con_key
+        self.__label_color = label_color
         self.__setup_ui()
 
 
@@ -74,3 +75,6 @@ class DbTreeItem(QTreeWidgetItem):
             for d in range(child_item.childCount()):
                 if item is child_item.child(d):
                     return item.text(0), self.__con_key
+
+    def get_label_color(self):
+        return self.__label_color

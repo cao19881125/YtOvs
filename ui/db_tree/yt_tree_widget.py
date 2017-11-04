@@ -6,6 +6,7 @@ from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QHBoxLayout
 from PyQt4.QtGui import QVBoxLayout
+from PyQt4.QtGui import QMessageBox
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QSize
 from PyQt4.QtCore import pyqtSlot
@@ -20,6 +21,8 @@ class YtTreeWidget(QTreeWidget):
         QTreeWidget.__init__(self)
         self.__setup_ui()
         self.__connect_slot()
+        self.__label_color = ['red','orange','yellow','green','blue','purple']
+        self.__current_label_count = 0
 
     def __setup_ui(self):
         self.setColumnCount(1)
@@ -31,10 +34,11 @@ class YtTreeWidget(QTreeWidget):
 
     def add_connection(self, ip, port ,schema, tables, con_key):
 
-        item = DbTreeItem(ip + ':' + str(port), schema, tables, con_key)
+
+        item = DbTreeItem(ip + ':' + str(port), schema, tables, con_key, self.__label_color[self.__current_label_count])
         self.addTopLevelItem(item)
 
-        header_widget = DbTreeHeaderWidget(ip + ':' + str(port), item, con_key)
+        header_widget = DbTreeHeaderWidget(ip + ':' + str(port), item, con_key, self.__label_color[self.__current_label_count])
         self.setItemWidget(item,0,header_widget)
         self.connect(header_widget,SIGNAL('close_btn_clickd(PyQt_PyObject,PyQt_PyObject)'),self,SLOT('__on_header_close_btn(PyQt_PyObject,PyQt_PyObject)'))
 
@@ -42,6 +46,9 @@ class YtTreeWidget(QTreeWidget):
         for ex_item in default_expand_items:
             self.expandItem(ex_item)
 
+        self.__current_label_count += 1
+        if self.__current_label_count >= len(self.__label_color):
+            self.__current_label_count = 0
 
     def __connect_slot(self):
         self.connect(self,SIGNAL('itemExpanded(QTreeWidgetItem*)'),self,SLOT('__on_item_expand(QTreeWidgetItem*)'))
@@ -70,8 +77,8 @@ class YtTreeWidget(QTreeWidget):
         table_name,con_key = root_item.item_double_click(item)
         if not table_name or not con_key:
             return
-
-        self.emit(SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject)'), table_name, con_key)
+        label_color = root_item.get_label_color()
+        self.emit(SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject,PyQt_PyObject)'), table_name, con_key,label_color)
 
     @pyqtSlot('PyQt_PyObject','PyQt_PyObject')
     def __on_header_close_btn(self, item, con_key):
