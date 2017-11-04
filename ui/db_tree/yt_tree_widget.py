@@ -78,15 +78,18 @@ class YtTreeWidget(QTreeWidget):
         if not table_name or not con_key:
             return
         label_color = root_item.get_label_color()
-        self.emit(SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject,PyQt_PyObject)'), table_name, con_key,label_color)
+        uuid = root_item.get_uuid()
+        self.emit(SIGNAL('table_double_clicked(PyQt_PyObject,PyQt_PyObject,PyQt_PyObject,PyQt_PyObject)'), uuid,table_name, con_key,label_color)
 
     @pyqtSlot('PyQt_PyObject','PyQt_PyObject')
     def __on_header_close_btn(self, item, con_key):
         top_count = self.topLevelItemCount()
         for i in range(top_count):
             top_item = self.topLevelItem(i)
+            uuid = top_item.get_uuid()
             if item is top_item:
                 self.takeTopLevelItem(i)
+                self.emit(SIGNAL('connection_closed(PyQt_PyObject)'),uuid)
                 ConnectionManager().del_connection(con_key)
                 return
 

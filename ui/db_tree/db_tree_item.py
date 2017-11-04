@@ -1,18 +1,6 @@
-import sys
-from PyQt4.QtGui import QTreeWidget
-from PyQt4.QtGui import QWidget
-from PyQt4.QtGui import QPushButton
-from PyQt4.QtGui import QHBoxLayout
-from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QTreeWidgetItem
-from PyQt4.QtGui import QApplication
 from PyQt4.QtGui import QIcon
-from PyQt4.QtGui import QSizePolicy
-from PyQt4.QtCore import QSize
-from PyQt4.QtCore import SIGNAL
-from PyQt4.QtCore import SLOT
-from PyQt4.QtCore import pyqtSlot
-from PyQt4.QtCore import QObject
+from utils.yt_utils import get_uuid
 
 class DbTreeItem(QTreeWidgetItem):
     def __init__(self, con_name, schema_name, table_names, con_key, label_color):
@@ -22,6 +10,7 @@ class DbTreeItem(QTreeWidgetItem):
         self.__table_names = table_names
         self.__con_key = con_key
         self.__label_color = label_color
+        self.__uuid = get_uuid()
         self.__setup_ui()
 
 
@@ -75,6 +64,9 @@ class DbTreeItem(QTreeWidgetItem):
             for d in range(child_item.childCount()):
                 if item is child_item.child(d):
                     return item.text(0), self.__con_key
+
+    def get_uuid(self):
+        return self.__uuid
 
     def get_label_color(self):
         return self.__label_color

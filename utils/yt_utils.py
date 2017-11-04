@@ -1,5 +1,10 @@
 import hashlib
 from PyQt4.QtCore import QString
+import uuid
+
+def get_uuid():
+    return str(uuid.uuid1())
+
 
 def to_python_str(from_str):
     if type(from_str) is QString:
