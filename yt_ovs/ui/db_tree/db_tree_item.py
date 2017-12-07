@@ -1,6 +1,8 @@
+import os
 from PyQt4.QtGui import QTreeWidgetItem
 from PyQt4.QtGui import QIcon
 from utils.yt_utils import get_uuid
+ICON_IDR = os.path.join(os.path.dirname(__file__),'../../icon/')
 
 class DbTreeItem(QTreeWidgetItem):
     def __init__(self, con_name, schema_name, table_names, con_key, label_color):
@@ -16,16 +18,16 @@ class DbTreeItem(QTreeWidgetItem):
 
     def __setup_ui(self):
         #self.setText(0, self.__con_name)
-        self.setIcon(0,QIcon('./icon/database.png'))
+        self.setIcon(0,QIcon(ICON_IDR + 'database.png'))
 
 
         self.__db_item = QTreeWidgetItem(self)
-        self.__db_item.setIcon(0,QIcon('./icon/dir_close.png'))
+        self.__db_item.setIcon(0,QIcon(ICON_IDR + 'dir_close.png'))
         self.__db_item.setText(0, self.__schema_name)
 
         for table in self.__table_names:
             table_item = QTreeWidgetItem(self.__db_item)
-            table_item.setIcon(0,QIcon('./icon/table.png'))
+            table_item.setIcon(0,QIcon(ICON_IDR + 'table.png'))
             table_item.setText(0, table)
 
     def get_default_expand_items(self):
@@ -41,7 +43,7 @@ class DbTreeItem(QTreeWidgetItem):
 
         for i in range(self.childCount()):
             if item is self.child(i):
-                item.setIcon(0,QIcon('./icon/dir_open.png'))
+                item.setIcon(0,QIcon(ICON_IDR + 'dir_open.png'))
     def item_collapsed(self, item):
         if item is self:
             # do nothing
@@ -49,7 +51,7 @@ class DbTreeItem(QTreeWidgetItem):
 
         for i in range(self.childCount()):
             if item is self.child(i):
-                item.setIcon(0,QIcon('./icon/dir_close.png'))
+                item.setIcon(0,QIcon(ICON_IDR + 'dir_close.png'))
 
     def item_double_click(self, item):
         if item is self:

@@ -1,6 +1,6 @@
 # Install dependencies
-## mac os
-### pyqt4
+## pyqt4
+### mac os
 ```
 brew install cartr/qt4/pyqt
 
@@ -9,41 +9,23 @@ sudo mkdir -p /Users/username/Library/Python/2.7/lib/python/site-packages
 sudo vim /Users/username/Library/Python/2.7/lib/python/site-packages/homebrew.pth
 import site; site.addsitedir("/usr/local/lib/python2.7/site-packages")
 ```
-
-### ovs
+### ubuntu
 ```
-sudo pip install ovs
+sudo apt-get install python-qt4
 ```
-
-## test
+### centos
 ```
-vim test_qt4.py
-
-import sys
-from PyQt4 import QtGui
-
-def window():
-   app = QtGui.QApplication(sys.argv)
-   w = QtGui.QWidget()
-   b = QtGui.QLabel(w)
-   b.setText('Hello World!')
-   w.setGeometry(100,100,200,50)
-   b.move(50,20)
-   w.setWindowTitle('PyQt')
-   w.show()
-   sys.exit(app.exec_())
-
-if __name__ == '__main__':
-   window()
+sudo yum install PyQt4
 ```
 
+# install yt_ovs
 ```
-python test_qt4.py
+git clone https://github.com/cao19881125/YtOvs.git
+cd YtOvs
+pip install .
 ```
 
 # run yt_ovs
 ```
-git clone https://github.com/cao19881125/YtOvs.git
-cd YtOvs
-python yt_ovs.py
+yt-ovs
 ```

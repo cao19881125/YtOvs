@@ -1,0 +1,3 @@
+recursive-include yt_ovs/icon *
+recursive-include yt_ovs/styleSheet *
+

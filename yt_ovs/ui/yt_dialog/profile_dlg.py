@@ -1,4 +1,5 @@
 import json
+import os
 from PyQt4.QtGui import QDialog
 from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QVBoxLayout
@@ -21,6 +22,8 @@ from PyQt4.QtCore import Qt
 from new_connection_dlg import NewConnectionDlg
 from utils.yt_utils import con_has_code
 from utils.yt_utils import to_python_str
+ICON_IDR = os.path.join(os.path.dirname(__file__),'../../icon/')
+
 
 class ProfileDlg(QDialog):
     def __init__(self):
@@ -58,12 +61,12 @@ class ProfileDlg(QDialog):
         h_layout.setContentsMargins(0,0,0,0)
 
         self.__puls_btn = QPushButton()
-        self.__puls_btn.setIcon(QIcon('./icon/arrow_plus.png'))
+        self.__puls_btn.setIcon(QIcon(ICON_IDR + 'arrow_plus.png'))
         self.__puls_btn.setIconSize(QSize(15, 15))
         self.__puls_btn.setMaximumSize(20, 20)
 
         self.__minus_btn = QPushButton()
-        self.__minus_btn.setIcon(QIcon('./icon/arrow_minus.png'))
+        self.__minus_btn.setIcon(QIcon(ICON_IDR + 'arrow_minus.png'))
         self.__minus_btn.setIconSize(QSize(15, 15))
         self.__minus_btn.setMaximumSize(20, 20)
 

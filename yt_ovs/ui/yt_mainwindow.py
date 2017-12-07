@@ -1,3 +1,4 @@
+import os
 from PyQt4.QtGui import QMainWindow
 from PyQt4.QtGui import QMenu
 from PyQt4.QtGui import QMenuBar
@@ -19,7 +20,7 @@ from db_connection.connection_manager import ConnectionManager
 from db_tree.yt_tree_widget import YtTreeWidget
 from data_widget.data_widget import DataWidget
 from utils.yt_utils import *
-
+ICON_IDR = os.path.join(os.path.dirname(__file__),'../icon/')
 
 class YtMainWindow(QMainWindow):
     def __init__(self):
@@ -52,10 +53,10 @@ class YtMainWindow(QMainWindow):
         self.menuBar().addMenu(fileMenu)
         self.menuBar().addMenu(profileMenu)
 
-        self.__new_action = QAction(QIcon('./icon/add_database.png'),"&New", fileMenu)
+        self.__new_action = QAction(QIcon(ICON_IDR + 'add_database.png'),"&New", fileMenu)
         fileMenu.addAction(self.__new_action)
 
-        self.__profile_action = QAction(QIcon('./icon/profiles.png'),"&Open profiles", profileMenu)
+        self.__profile_action = QAction(QIcon(ICON_IDR + 'profiles.png'),"&Open profiles", profileMenu)
         profileMenu.addAction(self.__profile_action)
 
         tool_bar = QToolBar()

@@ -1,3 +1,4 @@
+import os
 from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QHBoxLayout
 from PyQt4.QtGui import QBoxLayout
@@ -10,6 +11,7 @@ from PyQt4.QtCore import QSize
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtCore import SIGNAL
 from PyQt4.QtCore import SLOT
+ICON_IDR = os.path.join(os.path.dirname(__file__),'../../icon/')
 
 class ToolWidget(QWidget):
     def __init__(self):
@@ -23,7 +25,7 @@ class ToolWidget(QWidget):
         #h_layout.setDirection(QBoxLayout.RightToLeft)
 
         self.__refresh_btn = QPushButton()
-        self.__refresh_btn.setIcon(QIcon('./icon/refresh.png'))
+        self.__refresh_btn.setIcon(QIcon(ICON_IDR + 'refresh.png'))
         self.__refresh_btn.setIconSize(QSize(20,20))
         self.__refresh_btn.setMaximumSize(30,30)
         self.__refresh_btn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)

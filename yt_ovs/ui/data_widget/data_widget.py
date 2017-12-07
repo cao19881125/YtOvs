@@ -19,7 +19,7 @@ class DataWidget(QTabWidget):
     def __setup_ui(self):
         self.setTabsClosable(True)
         self.setIconSize(QSize(15,15))
-        self.setStyleSheet('QTabBar::close-button{image:url(./icon/close/close_red.png);}')
+        #self.setStyleSheet('QTabBar::close-button{image:url(./icon/close/close_red.png);}')
 
 
     def add_tab(self, identify, con_key, table_name, tab_color):
